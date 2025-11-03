@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { adminService } from "../../api/admin.service";
-import { authService } from "../../api/auth.service";
 
 function Dashboard({isAuthenticated}) {
   const [userscount, setUserscount] = useState(0);
