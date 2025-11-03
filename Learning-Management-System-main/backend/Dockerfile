@@ -1,28 +1,15 @@
-# ---------- Build stage ----------
-FROM maven:3.9.9-eclipse-temurin-17 AS builder
+# Build
+FROM maven:3.9-eclipse-temurin-21 AS build
 WORKDIR /app
-
-# Copy pom.xml and download deps
 COPY pom.xml .
-RUN mvn dependency:go-offline -B
-
-# Copy source and build
+RUN mvn -q -DskipTests dependency:go-offline
 COPY src ./src
-RUN mvn clean package -DskipTests
+RUN mvn -q -DskipTests package
 
-# ---------- Runtime stage ----------
-FROM eclipse-temurin:17-jre-alpine
+# Run
+FROM eclipse-temurin:21-jre
 WORKDIR /app
-
-# Add a non-root user
-RUN addgroup -S spring && adduser -S spring -G spring
-USER spring:spring
-
-# Copy only the built jar
-COPY --from=builder /app/target/*.jar app.jar
-
-# Expose port
+ENV JAVA_TOOL_OPTIONS="-XX:MaxRAMPercentage=75.0"
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
-
-# Default run command
-ENTRYPOINT ["java","-jar","app.jar"]
+ENTRYPOINT ["java","-jar","/app/app.jar"]
