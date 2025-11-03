@@ -1,8 +1,7 @@
-# Netlify config (root) — enforce correct base and publish paths
+# Netlify config (root) — build from frontend directory
 [build]
-  base = "frontend"
-  command = "npm run build"
-  publish = "build"
+  command = "cd frontend && npm ci && npm run build"
+  publish = "frontend/build"
 
 [[redirects]]
   from = "/*"
