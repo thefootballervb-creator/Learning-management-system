@@ -1,23 +1,25 @@
 services:
   - type: web
     name: lms-backend
-    env: java
-    rootDir: backend
-
+    runtime: docker
+    rootDir: backend           # path where your Dockerfile is
     plan: free
     autoDeploy: true
 
-    buildCommand: ./mvnw -DskipTests package
-    startCommand: java -jar target/Learning-Management-System-0.0.1-SNAPSHOT.jar
-
+    # Optional health check if Spring Actuator is enabled
     healthCheckPath: /actuator/health
 
+    # If your Dockerfile exposes a port, Render will detect it.
+    # Otherwise, set it explicitly:
+    # envVars:
+    #   - key: PORT
+    #     value: 8080
+
     envVars:
-      - key: JAVA_VERSION
-        value: 21
       - key: SPRING_PROFILES_ACTIVE
         value: default
-      # Add your DB config here or in Render dashboard:
+
+      # ====== Database (uncomment and fill if using managed DB) ======
       # - key: SPRING_DATASOURCE_URL
       #   value: jdbc:mysql://<host>:<port>/<db>?useSSL=false&serverTimezone=UTC
       # - key: SPRING_DATASOURCE_USERNAME
@@ -25,7 +27,5 @@ services:
       # - key: SPRING_DATASOURCE_PASSWORD
       #   value: <password>
 
-    headers:
-      - path: /*
-        name: Access-Control-Allow-Origin
-        value: "*"
+      # ====== CORS (configure in your Spring app) ======
+      # Add allowed origins for your Netlify domain in Spring security/CORS config
