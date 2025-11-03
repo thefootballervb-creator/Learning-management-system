@@ -1,0 +1,106 @@
+package com.lms.dev.service;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import org.springframework.stereotype.Service;
+
+import com.lms.dev.dto.EnrollRequest;
+import com.lms.dev.entity.Course;
+import com.lms.dev.entity.Learning;
+import com.lms.dev.entity.Progress;
+import com.lms.dev.entity.User;
+import com.lms.dev.repository.CourseRepository;
+import com.lms.dev.repository.LearningRepository;
+import com.lms.dev.repository.ProgressRepository;
+import com.lms.dev.repository.UserRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
+@Service
+public class LearningService {
+
+    private final LearningRepository learningRepository;
+
+    private final UserRepository userRepository;
+
+    private final CourseRepository courseRepository;
+    
+    private final ProgressRepository progressRepository;
+
+    public List<Course> getLearningCourses(UUID userId) {
+        if (userId == null) {
+            return Collections.emptyList();
+        }
+        Optional<User> optionalUser = userRepository.findById(userId);
+        
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            List<Course> learningCourses = new ArrayList<>();
+
+            for (Learning learning : user.getLearningCourses()) {
+                Course course = learning.getCourse();
+                learningCourses.add(course);
+            }
+
+            return learningCourses;
+        }
+
+        return Collections.emptyList();
+    }
+    
+    public List<Learning> getEnrollments() {
+    	return learningRepository.findAll();
+    }
+
+    public String enrollCourse(EnrollRequest enrollRequest) {
+        if (enrollRequest == null) {
+            return "Failed to enroll";
+        }
+        UUID userId = enrollRequest.getUserId();
+        if (userId == null) {
+            return "Failed to enroll";
+        }
+        UUID courseId = enrollRequest.getCourseId();
+        if (courseId == null) {
+            return "Failed to enroll";
+        }
+        Optional<User> userOpt = userRepository.findById(userId);
+        Optional<Course> courseOpt = courseRepository.findById(courseId);
+
+        if (userOpt.isPresent() && courseOpt.isPresent()) {
+            User user = userOpt.get();
+            Course course = courseOpt.get();
+            Learning existingLearning = learningRepository.findByUserAndCourse(user, course);
+            if (existingLearning != null) {
+                return "Course already enrolled";
+            }
+
+            Progress progress = new Progress();
+            progress.setUser(user);
+            progress.setCourse(course);
+            progressRepository.save(progress);
+
+            Learning learning = new Learning();
+            learning.setUser(user);
+            learning.setCourse(course);
+            learningRepository.save(learning);
+
+            return "Enrolled successfully";
+        }
+
+        return "Failed to enroll";
+    }
+
+
+    public void unenrollCourse(UUID id) {
+        if (id != null) {
+            learningRepository.deleteById(id);
+        }
+    }
+}
+
