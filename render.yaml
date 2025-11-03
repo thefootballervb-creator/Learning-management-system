@@ -5,28 +5,17 @@ services:
     rootDir: backend
     plan: free
     autoDeploy: true
-
-    # If you have Actuator enabled
     healthCheckPath: /actuator/health
 
-    # Environment variables your app needs to boot on Render
     envVars:
-      # Tell Spring which profile to use
       - key: SPRING_PROFILES_ACTIVE
         value: default
-
-      # Make Spring Boot bind to the port Render expects.
-      # Spring reads SERVER_PORT and uses it as server.port.
-      # Render injects PORT at runtime; this default makes it safe if PORT isn't available.
       - key: SERVER_PORT
         value: 8080
-      # Also declare PORT explicitly so Render knows what the container listens on.
       - key: PORT
         value: 8080
 
-      # ===== Database (REQUIRED for MySQL-backed app) =====
-      # Fill these in the Render Dashboard after the service is created,
-      # or commit real values here if you’re comfortable.
+      # Fill these in the Render dashboard after the service is created
       # - key: SPRING_DATASOURCE_URL
       #   value: jdbc:mysql://<host>:<port>/<db>?useSSL=false&serverTimezone=UTC
       # - key: SPRING_DATASOURCE_USERNAME
@@ -37,11 +26,3 @@ services:
       #   value: com.mysql.cj.jdbc.Driver
       # - key: SPRING_JPA_HIBERNATE_DDL_AUTO
       #   value: update
-
-      # ===== Optional tuning =====
-      # - key: JAVA_TOOL_OPTIONS
-      #   value: -XX:MaxRAMPercentage=75.0
-
-    # Notes:
-    # - Your backend/Dockerfile should build and run the Spring Boot app (e.g., java -jar app.jar).
-    # - The app must listen on 8080 inside the container (as configured above).
