@@ -10,19 +10,13 @@ services:
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: default
-      - key: SERVER_PORT
-        value: 8080
+      # PORT is automatically set by Render, but we can set a default
       - key: PORT
-        value: 8080
+        value: "8080"
 
-      # Fill these in the Render dashboard after the service is created
-      # - key: SPRING_DATASOURCE_URL
-      #   value: jdbc:mysql://<host>:<port>/<db>?useSSL=false&serverTimezone=UTC
-      # - key: SPRING_DATASOURCE_USERNAME
-      #   value: <username>
-      # - key: SPRING_DATASOURCE_PASSWORD
-      #   value: <password>
-      # - key: SPRING_DATASOURCE_DRIVER_CLASS_NAME
-      #   value: com.mysql.cj.jdbc.Driver
-      # - key: SPRING_JPA_HIBERNATE_DDL_AUTO
-      #   value: update
+      # Database configuration - MUST be set in Render dashboard after creating MySQL database
+      # Go to your MySQL database service in Render and copy the "Internal Database URL"
+      # Then add these environment variables in the web service settings:
+      # SPRING_DATASOURCE_URL: jdbc:mysql://<host>:<port>/<database>?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      # SPRING_DATASOURCE_USERNAME: <username>
+      # SPRING_DATASOURCE_PASSWORD: <password>

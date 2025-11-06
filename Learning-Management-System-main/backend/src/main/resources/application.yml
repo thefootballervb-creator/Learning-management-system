@@ -1,7 +1,10 @@
+server:
+  port: ${PORT:8080}
+
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/learning_management?createDatabaseIfNotExist=true}
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/learning_management?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
     username: ${SPRING_DATASOURCE_USERNAME:root}
     password: ${SPRING_DATASOURCE_PASSWORD:123456789}
 
