@@ -191,6 +191,10 @@ function Courses() {
                       src={course.p_link} 
                       alt={course.course_name} 
                       className="h-48 w-full object-cover group-hover:scale-105 transition-transform duration-200" 
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=800&h=400&fit=crop";
+                      }}
                     />
                     <div className="absolute top-3 right-3">
                       <span className="bg-white/90 backdrop-blur-sm text-gray-700 px-2 py-1 rounded-full text-xs font-medium">

@@ -45,7 +45,7 @@ public class CourseInitializationService {
         // Machine Learning
         Course machineLearning = createCourse("Machine Learning", "David", 120,
             "Introduction to machine learning algorithms, neural networks, and AI applications. Build intelligent systems from scratch.",
-            "https://img-c.udemycdn.com/course/750x422/950390_270f_5.jpg",
+            "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=800&h=400&fit=crop",
             "https://youtu.be/i_LwzRVP7bg?si=QoKOExtCumWW8Gmb");
         courseRepository.save(machineLearning);
 

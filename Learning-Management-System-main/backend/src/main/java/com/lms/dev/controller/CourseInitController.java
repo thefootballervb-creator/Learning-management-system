@@ -309,5 +309,41 @@ public class CourseInitController {
             return ResponseEntity.status(500).body(response);
         }
     }
+
+    @PostMapping("/fix-machine-learning-image")
+    public ResponseEntity<Map<String, Object>> fixMachineLearningImage() {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            List<Course> machineLearningCourses = courseRepository.findAll().stream()
+                .filter(c -> "Machine Learning".equals(c.getCourse_name()))
+                .toList();
+            
+            if (machineLearningCourses.isEmpty()) {
+                response.put("success", false);
+                response.put("message", "Machine Learning course not found");
+                return ResponseEntity.ok(response);
+            }
+            
+            String newImageUrl = "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=800&h=400&fit=crop";
+            int updatedCount = 0;
+            
+            for (Course course : machineLearningCourses) {
+                course.setP_link(newImageUrl);
+                courseRepository.save(course);
+                updatedCount++;
+            }
+            
+            response.put("success", true);
+            response.put("message", "Machine Learning course image updated successfully");
+            response.put("updatedCount", updatedCount);
+            log.info("Updated {} Machine Learning course(s) with new image URL", updatedCount);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            log.error("Error fixing Machine Learning course image: ", e);
+            response.put("success", false);
+            response.put("message", "Error: " + e.getMessage());
+            return ResponseEntity.status(500).body(response);
+        }
+    }
 }
 

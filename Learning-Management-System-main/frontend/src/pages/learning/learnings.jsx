@@ -73,6 +73,10 @@ function Learnings() {
                 src={course.p_link}
                 alt={course.course_name}
                 className="rounded-lg shadow-md w-[180px] h-[120px] mr-4 object-cover max-md:w-[130px] max-md:h-[90px]"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=800&h=400&fit=crop";
+                }}
               />
               <div className="flex-1 text-left">
                 <h3 className="text-lg font-bold text-neutral mb-1 max-md:text-sm">
