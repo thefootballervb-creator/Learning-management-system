@@ -15,6 +15,16 @@ A full-stack web application built using **Spring Boot** (backend) and **React.j
 - **Database:** MySQL  
 - **Tools:** Maven, Git, VS Code
 
+## Default Admin Credentials
+- Email: admin@gmail.com
+- Password: admin2468
+
+- Users can register, log in, view courses, take assessments, and receive certificates.
+
+## Default Instructor Credentials
+- Email: Instructor@gmail.com
+- Password: Instructor2468
+
 ## ⚙️ Setup Instructions
 1. Clone the repository  
    ```bash
