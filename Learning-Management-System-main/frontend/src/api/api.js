@@ -12,9 +12,9 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     // Public endpoints that don't need authentication
-    const isPublicEndpoint = config.url?.includes('/api/courses') && config.method === 'get' ||
-                            config.url?.includes('/api/auth/') ||
-                            config.url?.includes('/actuator/health');
+    const isPublicEndpoint = (
+      config.method === 'get' && config.url?.includes('/api/courses')
+    ) || config.url?.includes('/api/auth/') || config.url?.includes('/actuator/health');
     
     // Only add auth header if not a public endpoint
     if (!isPublicEndpoint) {
@@ -32,13 +32,12 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     // Check if this is an optional resource that shouldn't show error messages
-    const isOptionalResource = error.config?.url?.includes('/profile-image') || 
-                               error.config?.url?.includes('/certificates/');
+    const isOptionalResource = error.config?.url?.includes('/profile-image') ||
+      error.config?.url?.includes('/certificates/');
     
     // Public endpoints that don't require authentication
     const isPublicEndpoint = error.config?.url?.includes('/api/courses') ||
-                            error.config?.url?.includes('/api/auth/') ||
-                            error.config?.url?.includes('/actuator/health');
+      error.config?.url?.includes('/api/auth/') || error.config?.url?.includes('/actuator/health');
     
     if (error.response?.status === 401) {
       // Don't redirect for public endpoints - they should work without auth

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { 
   Card, 
   Form, 
@@ -31,7 +30,6 @@ const { TextArea } = Input;
 const { Option } = Select;
 
 function AddQuestion({ courseId, onBack }) {
-  const navigate = useNavigate();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [questions, setQuestions] = useState([]);
