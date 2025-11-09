@@ -1,3 +1,12 @@
+[build]
+  base = "Learning-Management-System-main/frontend"
+  command = "npm run build"
+  publish = "build"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
 # Netlify config (root) — build from frontend directory
 [build]
   base = "frontend"
