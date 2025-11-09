@@ -11,6 +11,7 @@ function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(authService.isAdminAuthenticated());
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
 
   const renderContent = () => {
@@ -60,6 +61,7 @@ function AdminDashboard() {
               Admin Login
             </h2>
             <form onSubmit={handleLogin} className="space-y-6">
+              <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-200 mb-1">
                   Email
@@ -77,14 +79,25 @@ function AdminDashboard() {
                 <label className="block text-sm font-medium text-gray-200 mb-1">
                   Password
                 </label>
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 bg-white/30 border border-white/40 rounded-lg text-white placeholder-gray-200 focus:ring-2 focus:ring-blue-400 focus:outline-none"
-                  placeholder="Enter password"
-                  required
-                />
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full px-4 py-3 bg-white/30 border border-white/40 rounded-lg text-white placeholder-gray-200 focus:ring-2 focus:ring-blue-400 focus:outline-none pr-12"
+                    placeholder="Enter password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    className="absolute inset-y-0 right-3 flex items-center text-sm font-semibold text-blue-100 hover:text-white focus:outline-none"
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                  >
+                    {showPassword ? "Hide" : "Show"}
+                  </button>
+                </div>
+              </div>
               </div>
               {error && (
                 <p className="text-red-400 text-sm font-medium">{error}</p>

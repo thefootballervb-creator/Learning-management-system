@@ -29,11 +29,11 @@ app:
   jwtExpirationMs: ${JWT_EXPIRATION:604800000}
   default-admin:
     username: ${ADMIN_USERNAME:admin}
-    password: ${ADMIN_PASSWORD:admin2468}
+    password: ${ADMIN_PASSWORD:admin@098}
     email: ${ADMIN_EMAIL:admin@gmail.com}
   default-instructor:
     username: ${INSTRUCTOR_USERNAME:instructor}
-    password: ${INSTRUCTOR_PASSWORD:instructor2468}
+    password: ${INSTRUCTOR_PASSWORD:instructor@098}
     email: ${INSTRUCTOR_EMAIL:instructor@gmail.com}
 
 logging:

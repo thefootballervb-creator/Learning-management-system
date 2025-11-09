@@ -21,16 +21,48 @@ public class AdminInitializer {
     public CommandLineRunner createDefaultAdmin(UserRepository userRepository,
                                                 PasswordEncoder passwordEncoder) {
         return args -> {
-            if (!userRepository.existsByRole(UserRole.ADMIN)) {
+            String adminEmail = appProperties.getDefaultAdmin().getEmail();
+            User existingAdmin = userRepository.findByEmail(adminEmail);
+
+            if (existingAdmin == null) {
                 User admin = new User();
                 admin.setUsername(appProperties.getDefaultAdmin().getUsername());
                 admin.setPassword(passwordEncoder.encode(appProperties.getDefaultAdmin().getPassword()));
-                admin.setEmail(appProperties.getDefaultAdmin().getEmail());
+                admin.setEmail(adminEmail);
                 admin.setRole(UserRole.ADMIN);
+                admin.setIsActive(true);
                 userRepository.save(admin);
-                log.info("Default admin user created.");
+                log.info("Default admin user created with email: {}", adminEmail);
+                return;
+            }
+
+            boolean updated = false;
+
+            if (!appProperties.getDefaultAdmin().getUsername().equals(existingAdmin.getUsername())) {
+                existingAdmin.setUsername(appProperties.getDefaultAdmin().getUsername());
+                updated = true;
+            }
+
+            if (existingAdmin.getRole() != UserRole.ADMIN) {
+                existingAdmin.setRole(UserRole.ADMIN);
+                updated = true;
+            }
+
+            if (existingAdmin.getIsActive() == null || !existingAdmin.getIsActive()) {
+                existingAdmin.setIsActive(true);
+                updated = true;
+            }
+
+            if (!passwordEncoder.matches(appProperties.getDefaultAdmin().getPassword(), existingAdmin.getPassword())) {
+                existingAdmin.setPassword(passwordEncoder.encode(appProperties.getDefaultAdmin().getPassword()));
+                updated = true;
+            }
+
+            if (updated) {
+                userRepository.save(existingAdmin);
+                log.info("Default admin user updated for email: {}", adminEmail);
             } else {
-                log.info("Admin user already exists, skipping creation.");
+                log.info("Default admin user already up to date for email: {}", adminEmail);
             }
         };
     }

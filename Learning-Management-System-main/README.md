@@ -10,6 +10,7 @@ A full-stack web application built using **Spring Boot** (backend) and **React.j
 - Assignment upload and grading
 - Student and Instructor dashboards
 - Secure REST API with Spring Boot (JWT)
+- Users can self-register, browse courses, enroll, take assessments, and download certificates upon completion.
 
 ## 🧩 Tech Stack
 - **Frontend:** React.js, Tailwind CSS, JavaScript  
@@ -44,6 +45,14 @@ Requirements: JDK 21, Maven Wrapper included (`mvnw`/`mvnw.cmd`)
     ./mvnw spring-boot:run
     ```
 - The backend starts by default on `http://localhost:8080`.
+
+### Default Accounts
+| Role | Email | Password |
+| --- | --- | --- |
+| Admin | `admin@gmail.com` | `admin@098` |
+| Instructor | `instructor@gmail.com` | `instructor@098` |
+
+These credentials are synchronized on every backend startup. If the records already exist, their username, role, activation status, and password are updated to match `application.yml`.
 
 ### 3) Frontend (React)
 Requirements: Node.js LTS (18+ recommended)

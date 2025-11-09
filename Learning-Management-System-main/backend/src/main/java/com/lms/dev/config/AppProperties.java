@@ -33,14 +33,14 @@ public class AppProperties {
     @Data
     public static class DefaultAdmin {
         private String username = "admin";
-        private String password = "admin123";
+        private String password = "admin@098";
         private String email = "admin@gmail.com";
     }
 
     @Data
     public static class DefaultInstructor {
         private String username = "instructor";
-        private String password = "instructor2468";
+        private String password = "instructor@098";
         private String email = "instructor@gmail.com";
     }
 }
